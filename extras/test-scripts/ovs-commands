@@ -1,0 +1,69 @@
+
+
+#Delete all flows
+ovs-ofctl -O OpenFlow13 del-flows s1 
+ovs-ofctl -O OpenFlow13 del-flows s2
+ovs-ofctl -O OpenFlow13 del-flows s3 
+ovs-ofctl -O OpenFlow13 del-flows s4 
+
+#Enable arp on all nodes
+ovs-ofctl -O OpenFlow13 add-flow s1 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s2 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s3 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s4 arp,actions=normal
+
+#Enable icmp on all nodes
+ovs-ofctl -O OpenFlow13 add-flow s1 icmp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s2 icmp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s3 icmp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s4 icmp,actions=normal
+
+#Add to controller flow on switch 1
+ovs-ofctl -O OpenFlow13 add-flow s1 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+actions=output:controller
+
+#Add to controller flow on switch 2
+ovs-ofctl -O OpenFlow13 add-flow s2 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+actions=output:controller
+
+#Add to controller flow on switch 3
+ovs-ofctl -O OpenFlow13 add-flow s3 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+actions=output:controller
+
+#Add to controller flow on switch 4
+ovs-ofctl -O OpenFlow13 add-flow s4 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+actions=output:controller
+
+#Delete all flows
+ovs-ofctl -O OpenFlow13 dump-flows s1
+
+
+#Normal Flow on switch 1
+ovs-ofctl -O OpenFlow13 add-flow s1 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s2 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s3 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s4 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s5 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s6 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s7 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s8 actions=normal
