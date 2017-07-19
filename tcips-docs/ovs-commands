@@ -1,0 +1,160 @@
+
+
+#Delete all flows
+ovs-ofctl -O OpenFlow13 del-flows s1 
+ovs-ofctl -O OpenFlow13 del-flows s2
+ovs-ofctl -O OpenFlow13 del-flows s3 
+ovs-ofctl -O OpenFlow13 del-flows s4 
+
+#Enable arp on all nodes
+ovs-ofctl -O OpenFlow13 add-flow s1 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s2 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s3 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s4 arp,actions=normal
+#Enable icmp on all nodes
+ovs-ofctl -O OpenFlow13 add-flow s1 icmp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s2 icmp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s3 icmp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s4 icmp,actions=normal
+
+
+ovs-ofctl add-flow s1 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+icmp_type=*,icmp_code=*,\
+actions=output:controller
+
+#s1 - Normal Flow on sw1
+ovs-ofctl -O OpenFlow13 add-flow s1 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s3 actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s4 actions=normal
+
+
+#S2
+ovs-ofctl add-flow s1 \
+priority=50000,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=10.0.0.11,nw_dst=10.0.0.13,nw_proto=6,\
+tp_src=*,tp_dst=9000,\
+icmp_type=*,icmp_code=*,\
+actions=output:2,output:3
+
+ovs-ofctl add-flow s1 \
+priority=50000,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=10.0.0.13,nw_dst=10.0.0.11,nw_proto=6,\
+tp_src=9000,tp_dst=*,\
+icmp_type=*,icmp_code=*,\
+actions=output:1,output:2
+
+
+
+ovs-ofctl add-flow s1 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+icmp_type=*,icmp_code=*,\
+actions=output:controller
+
+
+
+ovs-ofctl add-flow s1 \
+priority=1,\
+in_port=*,\
+dl_src=*,dl_dst=*,dl_type=0x0800,\
+nw_src=*,nw_dst=*,nw_proto=6,\
+tp_src=*,tp_dst=*,\
+icmp_type=*,icmp_code=*,\
+actions=output:controller
+
+
+
+ovs-ofctl -O OpenFlow13 add-flow s1 nw_src=10.0.0.11,nw_dst=10.0.0.12,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:2
+
+ovs-ofctl -O OpenFlow13 add-flow s1 nw_src=10.0.0.11,nw_dst=10.0.0.12,nw_proto=0x0800,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:1
+
+
+
+
+
+ovs-ofctl -O OpenFlow13 del-flows s1 
+ovs-ofctl -O OpenFlow13 add-flow s1 arp,actions=normal
+ovs-ofctl -O OpenFlow13 add-flow s1 icmp,actions=normal
+
+ovs-ofctl add-flow s1 \
+priority=50000,\
+actions=output:2
+
+
+
+#########
+
+
+
+
+
+
+
+## TODOS ##
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.12,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:2
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.13,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:3
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.21,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.31,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.32,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.33,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.41,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.42,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+
+ovs-ofctl add-flow s2 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.42,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:4
+
+
+ovs-ofctl add-flow s4 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.11,nw_dst=10.0.0.42,nw_proto=6,tp_src=*,tp_dst=9000,icmp_type=*,icmp_code=*,actions=output:3
+
+
+
+
+
+ovs-ofctl add-flow s1 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.42,nw_dst=10.0.0.11,nw_proto=6,tp_src=9000,tp_dst=*,icmp_type=*,icmp_code=*,actions=output:4
+
+
+ovs-ofctl add-flow s2 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.42,nw_dst=10.0.0.11,nw_proto=6,tp_src=9000,tp_dst=*,icmp_type=*,icmp_code=*,actions=output:4
+
+
+ovs-ofctl add-flow s4 \
+priority=50000,in_port=*,dl_src=*,dl_dst=*,dl_type=0x0800,nw_src=10.0.0.42,nw_dst=10.0.0.11,nw_proto=6,tp_src=9000,tp_dst=*,icmp_type=*,icmp_code=*,actions=output:3
+
+
+
+
+
+
+
+
+
+

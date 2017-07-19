@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"
+          name="${project.artifactId}-${project.version}">
+          
+    <repository>mvn:org.ops4j.pax.jdbc/pax-jdbc-features/${pax.jdbc.version}/xml/features</repository>
+    <
+          
+
+    <feature name="tcips-module" description="Tcips Karaf Module" version="1.0-SNAPSHOT" resolver="(obr)">
+        <details>${project.description}</details>
+        
+        <feature>transaction</feature>
+        <feature>jndi</feature>
+        <feature>pax-jdbc-h2</feature>
+        <feature>pax-jdbc-config</feature>
+        <feature>pax-jdbc-pool-dbcp2</feature>
+         <feature>jpa/2.1.0</feature>
+         <feature>hibernate/4.3.6.Final</feature>
+         <feature>jdbc</feature>
+        
+        <!--TODO Arun - to derive version from project - ${pom.version} -->
+        <bundle>mvn:com.ctatsch.tcips/tcips-persistence/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:com.ctatsch.tcips/tcips-template/1.0-SNAPSHOT</bundle>
+
+
+    </feature>
+</features>
