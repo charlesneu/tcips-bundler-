@@ -1,0 +1,39 @@
+\section{Detecção}
+\label{sec:deteccao}
+
+Periodicamente são analisadas as informações de fluxos presentes na base de dados alimentada na coleta dos contadores. A cada análise são executadas as seguintes etapas:
+
+\begin{itemize}
+    \item Seleção dos fluxos armazenados na base de dados que possuam número de pacotes reduzido, característico de fluxos de varredura de porta, e que tenham sido gerados nos últimos segundos;
+    \item Agrupamento dos fluxos selecionados, por endereço de origem e destino e porta de destino;
+    \item Obtenção da quantidade de fluxos com endereços de origem e destino semelhantes em um pequeno intervalo de tempo predefinido. Eventuais tentativas de varredura de porta podem ocorrer em qualquer sistema, sendo assim, um único fluxo não pode gerar um evento para bloqueio.
+    \item Classificação do tipo de varredura (horizontal, vertical e mista) com base nas informações de endereço de origem e destino e porta de destino.
+    \item Inserção do endereço de origem em uma lista de endereços para descarte.
+\end{itemize}
+
+Em geral, fluxos de tentativas de varredura de porta limitam-se em no máximo três pacotes, por exemplo \textit{TCP Connect} possui pacotes SYN, SYN/ACK e ACK, com exceção dos caso onde há retransmissão de pacotes devido à perdas. Além disso, estatisticamente, ataques do tipo \textit{port scan} ocorrem em intervalos pequenos de tempo, em média menos de um minuto. É sobre esse conjunto de fatores que a aplicação foi desenvolvida.
+
+Como há uma coleta periódica das estatísticas de fluxo, é possível analisar se houve aumento no número de pacotes entre uma consulta e outra. Para definir se um fluxo é considerado uma tentativa de varredura, neste projeto foi estabelecido um número máximo de cinco pacotes para o mesmo. Este número corresponde aos três pacotes responsáveis pelo \textit{handshake} da conexão com uma tolerância de dois pacotes em caso de retransmissão. Por este número de pacotes ser baixo, a probabilidade de se ter um fluxo não malicioso detectado como varredura é muito baixa. 
+
+Apenas uma varredura de porta não é considerada como ataque, para que fluxos sejam considerados ataques, algumas regras foram definidas de acordo com o tipo de varredura efetuada, essas regras são discutidas nas seções a seguir.
+
+\subsection{Detecção de varredura horizontal}
+
+Como discutido na Seção \ref{sec:varredura}, a detecção de varredura horizontal de portas é desenvolvido pela premissa de que vários fluxos, para uma mesma porta em diferentes \textit{hosts} alvo são originadas de um mesmo \textit{host} de origem. Nesse tipo de intrusão a aplicação desenvolvida analisa a origem e o destino das conexões. 
+
+Endereços \gls{ip} de origem, que possuam fluxos com número de pacotes igual ou inferior a cinco e que estejam tentando conectar-se à no mínimo três \textit{hosts} em uma mesma porta, são consideradas anomalias. Assim, o endereço de origem é adicionado na lista de endereços para descarte.
+O número de \textit{hosts} alvo necessários para caracterizar o ataque pode ser ajustado conforme o tamanho da rede no qual será utilizado, neste projeto, como a rede possui tamanho limitado, foi definido em três \textit{hosts}.
+
+\subsection{Detecção de varredura vertical}
+
+Na detecção de varredura vertical, tem-se a premissa de que um \textit{host} de origem realiza a varredura de várias portas em um mesmo \textit{host} de destino. Neste caso, \textit{hosts} de origem que possuam inúmeros fluxos para diferentes portas, podem ser reconhecidos pela aplicação como uma anomalia. Para esta classificação foi criada uma verificação com base em pesos, a fim de possibilitar uma maior sensibilidade aos ataques para portas mais utilizadas. Portas que em geral sofrem mais ataques de  varredura, como as de serviços Telnet \cite{rfc854}, possuem um peso maior sobre as demais portas. Quando a soma dos pesos de cada fluxo ultrapassar um limiar predefinido, é caracterizado um ataque de varredura. 
+
+Neste projeto foi estabelecido um peso cinco para portas com maior probabilidade de varredura segundo estatísticas de incidentes reportados ao CERT.BR \cite{certbr}, sendo estas definidas neste trabalho em 22, 23, 25 e 3389, e peso três para as demais portas. Quando a soma de pesos dos fluxos de mesma origem e destino ultrapassar o limiar estabelecido em quinze, um ataque de varredura pode ter sido realizado, sendo assim, é inserido seu endereço na lista de endereços para descarte. O limiar de detecção pode ser ajustado conforme necessidade da rede, para este trabalho foi utilizado um limiar quinze para facilitar os testes e cálculos dos resultados, sendo necessário três ataques às portas com maior probabilidade e cinco ataques para as demais portas.
+
+\subsection{Detecção de varredura mista}
+
+Nesse tipo de varredura, ambas as premissas já citadas devem ser consideradas. Neste, a aplicação proposta realiza a verificação de \textit{hosts} de origem que tentam estabelecer conexões em no mínimo dois \textit{hosts}. 
+
+No mínimo um destes \textit{hosts} também devem apresentar uma soma de pesos de varredura vertical estabelecido em seis. Resumindo, se dois \textit{hosts} tiverem determinada porta verificada e ao menos um deles tiver uma porta distinta verificada, é considerado um ataque de varredura.
+
+

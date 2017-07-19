@@ -1,0 +1,81 @@
+%==============================================================================
+% namedefs.babel - Definição de nomes padrão em português utilizados no modelo
+%
+% Copyright (C) 2015 - 2017 Eduardo Weiland <eduardo@eduardoweiland.info>
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Eduardo Weiland.
+%
+% This work consists of the files unisc.cls, namedefs.babel, tc.def
+% and propostatc.def.
+%==============================================================================
+
+%
+% definições para textos em português
+%
+\@namedef{captionsbrazilian}{%
+  \def\uniscname{Universidade de Santa Cruz do Sul}%
+  \def\bibname{Refer{\^e}ncias}%
+  \def\abstractname{Resumo}%
+  \def\appendixname{Ap{\^e}ndice}%
+  \def\contentsname{Sum{\'a}rio}%
+  \def\listfigurename{Lista de Ilustra\c{c}{\~o}es}%
+  \def\listtablename{Lista de Quadros}%
+  \def\listdefname{Lista de Defini\c{c}{\~o}es}%
+  \def\listtheoremsname{Lista de Teoremas}%
+  \def\listlistingsname{Lista de C{\'o}digos}%
+  \def\sourcename{Fonte}%
+  \def\corollaryname{Corol{\'a}rio}%
+  \def\propositionname{Proposi\c{c}{\~a}o}%
+  \def\definitionname{Defini\c{c}{\~a}o}%
+  \def\conjecturename{Conjectura}%
+  \def\examplename{Exemplo}%
+  \def\exercisename{Exerc{\'i}cio}%
+  \def\propertyname{Propriedade}%
+  \def\remarknamek{Observa\c{c}{\~a}o}%
+  \def\lemmaname{Lema}%
+  \def\theoremname{Teorema}%
+  \def\proofname{Prova}%
+  \def\figurename{Figura}%
+  \def\tablename{Quadro}%
+  \def\listingname{C{\'o}digo}%
+  \def\reviewername{Avaliador}%
+  \def\reviewersname{Avaliadores}%
+  \def\reviewernamef{Avaliadora}%
+  \def\advisorname{Orientador}%
+  \def\advisornamef{Orientadora}%
+  \def\coadvisorname{Co-orientador}%
+  \def\coadvisornamef{Co-orientadora}%
+  \def\listabbrvname{Lista de Abreviaturas}%
+  \def\listsymbolname{Lista de S{\'i}mbolos}%
+  \def\annexname{Anexo}%
+  \def\keywordsname{Palavras-chave}%
+  \def\byname{por}%
+  \def\temppropname{(T{\'i}tulo Provis{\'o}rio)}
+  \def\proptcspecificinfo{Proposta para Trabalho de Conclus{\~a}o}%
+  \def\tcname{Trabalho de Conclus{\~a}o}%
+  \def\tcspecificinfo{%
+    Trabalho de Conclus{\~a}o apresentado ao \@course~da \uniscname, como
+    requisito parcial para a obten\c{c}{\~a}o do t{\'i}tulo de \@degree.
+  }%
+}
+\@namedef{datebrazilian}{%
+  \def\monthname{%
+    \ifcase\month\or%
+      janeiro\or fevereiro\or mar{\c{c}}o\or abril\or%
+      maio\or junho\or julho\or agosto\or setembro\or%
+      outubro\or novembro\or dezembro%
+    \fi%
+  }%
+  \def\unisc@date{\@publmonth\ de~\@publyear}%
+  \def\unisc@dateday{\@publday\ de~\@publmonth\ de~\@publyear}%
+}

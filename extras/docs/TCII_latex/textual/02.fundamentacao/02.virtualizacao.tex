@@ -1,0 +1,9 @@
+\section{Virtualização}
+\label{sec:virtualizacao}
+%Rescrever
+
+O conceito de virtualização de redes define uma infraestrutura de redes de computadores virtuais. São definidos por \textit{software}, executando sobre máquinas físicas, de forma que toda infraestrutura virtual seja isolada da infraestrutura física, não interferindo na mesma. 
+
+Um dos \textit{softwares} mais usados na criação de redes virtuais em nível de \textit{software} é o Xen \cite{Fernandes:2011}. Esse programa é usado na criação de máquinas virtuais em computadores pessoais e servidores, e oferece a opção de criar roteadores virtuais que podem ser utilizados na interligação de máquinas virtuais para a formação de uma rede. Em \gls{sdn} a construção de redes virtuais acontece em nível de \textit{hardware}, através da separação do tráfego da rede física em \textit{slices}, porções de fluxo do tráfego total. O FlowVisor \cite{Sherwood:2009} possibilita virtualização em \gls{sdn}.
+
+O uso de virtualização de redes possibilita execução de experimentos distintos, sobre a mesma infraestrutura, em paralelo, sem interferência entre experimentos. Virtualização de redes também pode ser usada para isolamento de serviços. Assim, uma organização pode oferecer diversos serviços, com cada serviços executando em uma rede virtual diferente \cite{wu:2010, Mattos:2012}.

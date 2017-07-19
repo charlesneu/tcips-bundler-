@@ -1,0 +1,91 @@
+\documentclass[tc]{unisc}
+
+\usepackage[T1]{fontenc}        % Suporte a acentuação no arquivo de saída
+\usepackage[utf8]{inputenc}     % Codificação dos arquivos de entrada em UTF-8
+\usepackage[english,brazilian]{babel}
+
+\usepackage{graphicx}           % Para adicionar figuras
+\usepackage{float}              % Maior controle de objetos "float" (tabelas, figuras, etc.)
+
+\usepackage{capt-of}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+\graphicspath{ {images/} }
+
+\usepackage{placeins}
+\usepackage{pstricks}    %for embedding pspicture.
+
+\usepackage{minted}
+\usepackage{caption}
+\usepackage{mathtools}
+\usepackage[labelsep=endash, font=footnotesize]{caption}
+
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+
+% ==================================================================================
+%
+%                         INFORMAÇÕES GERAIS
+%
+% ==================================================================================
+
+\title{Sistema de detecção e prevenção de ataques port scan em redes OpenFlow SDN}
+
+\author{Tatsch}{Cássio Giordani}
+\advisor[Prof. Me.]{Neu}{Charles Varlei}
+\reviewer[Prof. Me.]{Assmann}{Daniel}
+\reviewer[Prof. Me.]{Muller}{Lucas Fernando}
+
+\dept{Departamento de Computação}
+\course{Curso de Engenharia de Computação}
+\degree{Bacharel em Engenharia de Computação}
+\location{Santa Cruz do Sul}{RS}
+\date{17}{novembro}{2017}
+
+\makeindex
+% ==================================================================================
+%
+%                         CONTEÚDO
+%
+% ==================================================================================
+\begin{document}
+\makecapa
+\maketitle
+
+
+
+
+
+%Pre-textual
+%\input{pre-textual/aprovacao.tex}
+%\input{pre-textual/01.dedicatoria.tex}
+\input{pre-textual/02.agradecimentos.tex}
+\input{pre-textual/epigrafe.tex}
+\input{pre-textual/03.resumo.tex}
+\input{pre-textual/04.abstract.tex}
+\listoffigures
+\listoftables
+%\lstlistoflistings
+\input{pre-textual/05.abbr.tex}
+
+
+\tableofcontents
+
+%------------------------------------------
+
+
+%Textual
+\input{textual/01.introducao/00.main.tex}
+\input{textual/02.fundamentacao/00.main.tex}
+\input{textual/03.trabalhos-relacionados/00.main.tex}
+\input{textual/04.proposta/00.main.tex}
+\input{textual/05.avaliacao/00.main.tex}
+\input{textual/06.consideracoes/00.main.tex}
+
+%------------------------------------------
+%Referencias
+\bibliography{referencias}
+
+% Anexos
+
+\end{document}

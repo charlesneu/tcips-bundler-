@@ -1,0 +1,24 @@
+
+\chapter{Ambiente e resultados experimentais}
+\label{cap:testes}
+
+
+O sistema desenvolvido foi avaliado através da realização de experiências práticas.
+Para viabilizar tal demonstração, foi desenvolvido um protótipo virtual utilizando o software Mininet \cite{website:mininet}. Mininet possibilita criar uma rede virtual escalável utilizando comutadores Open vSwitch \cite{Pfaff:2009} através de um simples \textit{script} em Python\cite{Python:2017}, facilitando a configuração de comutadores, bem como também, das conexões entres os mesmos. Além disso, Mininet possibilita a adição de \textit{hosts} virtuais com as mesmas funcionalidades do \textit{host} hospedeiro, tornando possível a criação de servidores \gls{web}, de banco de dados, testes de comunicação entre computadores e testes de ataque à servidores.
+O plano de controle por sua vez é executado pelo controlador OpenDaylight \cite{website:odl} sob uma máquina física, sendo a comunicação entre o mesmo e os comutadores estabelecida através do próprio \textit{software} Mininet.
+
+
+\section{Topologia de rede}
+
+A topologia de rede adotada nos testes é modelada de maneira bem simplificada. 
+Um controlador \gls{sdn} OpenDaylight realiza o gerenciamento de quatro \textit{switches} OpenFlow virtuais que por sua vez, realizam a interconexão entre servidores com serviços ativos para recepção de ataques, e computadores de uso geral que são utilizados para a realização das requisições e ataques aos servidores. A Figura \ref{fig:infra-testes} apresenta o modelo da topologia de rede utilizada para os testes.
+
+\begin{figure}[H]
+  \centering
+  \caption{Topologia de rede.}
+  \includegraphics[width=.70\textwidth]{images/infra-teste.eps}
+  \label{fig:infra-testes}
+  \fonte{\centering Elaborado pelo autor.}
+\end{figure}
+
+\input{textual/05.avaliacao/05.testes.tex}

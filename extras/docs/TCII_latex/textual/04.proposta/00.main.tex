@@ -1,0 +1,36 @@
+\chapter{Detecção e Prevenção de ataques port scan em redes SDN}
+\label{cap:metodologia}
+
+O objetivo principal deste trabalho é apresentar um \gls{ips} baseado em anomalia que com agrupamento de dados possa efetuar a detecção de intrusão, com foco em ataques de varredura de porta, e prover medidas de proteção contra os mesmos. Para isto, a solução foi desenvolvida considerando um ciclo de vida de três etapas (Figura \ref{fig:lifecicle}): A primeira refere-se à coleta, por parte do controlador, de informações presentes nas tabelas de fluxo dos \textit{switches} OpenFlow. A segunda etapa, de detecção, tem por finalidade a análise das informações coletadas, decidir se um fluxo é ou não malicioso e disponibilizar as informações ao controlador para que este tome as ações necessárias para prevenir o ataque. Por fim, na etapa de reação, são implementadas contramedidas para o bloqueio de ataques. Nesta etapa o controlador envia regras, definidas conforme os dados analisados, para atualização das tabelas de encaminhamento nos \textit{switches} OpenFlow. Cada uma dessas etapas será discutida no decorrer deste capítulo. A implementação desse trabalho aborda basicamente fluxos de rede \gls{tcp}, sendo assim, para outros protocolos alterações se fazem necessárias.
+
+\begin{figure}[H]
+  \centering
+  \caption{Ciclo de vida do IPS proposto}
+  \includegraphics[width=.650\textwidth]{images/lifecicle.eps}
+  \label{fig:lifecicle}
+  \fonte{\footnotesize{Elaborado pelo autor.}}
+\end{figure}
+
+Este capítulo está organizado da seguinte forma: na seção \ref{sec:arq-prop} é apresentado à arquitetura do sistema desenvolvido, na seção \ref{sec:coleta} é abordada a forma de monitoramento e obtenção de estatísticas presentes na tabela de fluxo por parte do controlador. Na seção \ref{sec:deteccao} diferentes algoritmos são discutidos de forma a analisar e detectar padrões de anomalia na rede. Por fim, na seção \ref{sec:reacao}, ações de contramedida são abordadas com o objetivo de prevenir e combater atividades maliciosas na rede.
+
+\FloatBarrier
+\section{Arquitetura}
+\label{sec:arq-prop}
+
+Este trabalho  possui uma arquitetura de \gls{ips} implementada para \gls{sdn} e utiliza o protocolo OpenFlow para possibilitar a construção de um \gls{ips} distribuído. Por atuar sobre \gls{sdn}, o controlador possui visão global da rede podendo, ao detectar uma ameaça, efetuar o bloqueio de um fluxo malicioso logo na sua origem. Esta aplicação foi desenvolvida como uma extensão (\textit{plugin}) ao controlador OpenDaylight \cite{website:odl}. 
+Na arquitetura desenvolvida, o controlador gerencia e armazena as regras que definem o encaminhamento de pacotes na rede além de coletar estatísticas dos \textit{switches} OpenFlow, conforme pode ser observado na Figura \ref{fig:arch-proposta} e apresentado nas seções seguintes.
+
+\begin{figure}
+  \centering
+  \caption{Fluxo de funcionamento do IPS proposto}
+  \includegraphics[width=.90\textwidth]{images/fluxo-arq.eps}
+  \label{fig:arch-proposta}
+  \fonte{Elaborado pelo autor.}
+\end{figure}
+
+\FloatBarrier
+\input{textual/04.proposta/01.coleta.tex}
+\input{textual/04.proposta/02.deteccao.tex}
+\input{textual/04.proposta/03.reacao.tex}
+
+%Should I write about Statistical Problems with Statistical-based Intrusion Detection?
