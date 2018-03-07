@@ -55,15 +55,15 @@ tp_src=*,tp_dst=*,\
 actions=output:controller
 
 #Delete all flows
-ovs-ofctl -O OpenFlow13 dump-flows s1
+#ovs-ofctl -O OpenFlow13 dump-flows s1
 
 
 #Normal Flow on switch 1
-ovs-ofctl -O OpenFlow13 add-flow s1 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s2 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s3 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s4 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s5 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s6 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s7 actions=normal
-ovs-ofctl -O OpenFlow13 add-flow s8 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s1 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s2 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s3 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s4 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s5 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s6 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s7 actions=normal
+#ovs-ofctl -O OpenFlow13 add-flow s8 actions=normal

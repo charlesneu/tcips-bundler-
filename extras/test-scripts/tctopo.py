@@ -1,6 +1,6 @@
 """Custom topology to test tcips
 
-Call it with sudo mn --custom tctopo.py --topo tctopo --controller=remote,ip=127.0.0.1,port=6633
+Call it with sudo mn --custom tctopo.py --topo tctopo --controller=remote,ip=127.0.0.1,port=6633 --switch ovs,protocols=OpenFlow13
 """
 
 from mininet.topo import Topo

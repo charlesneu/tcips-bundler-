@@ -361,16 +361,17 @@ public class FlowCommitImpl {
         builder.setFlowTable(new FlowTableRef(tableInstanceId));
         builder.setTransactionUri(new Uri(flow.getId().getValue()));
 
-        Future<RpcResult<AddFlowOutput>> rpcResult = salFlowService.addFlow(builder.build());
-
-        try {
-            // Não necessário esperar retorno, o mesmo demora devido a espera do
-            // BARRIER
-            RpcResult<AddFlowOutput> res = rpcResult.get(3, TimeUnit.SECONDS);
-            return res.isSuccessful();
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            LOG.error("Failed to write flow {}", e);
-        }
+        salFlowService.addFlow(builder.build());
+//        Future<RpcResult<AddFlowOutput>> rpcResult = salFlowService.addFlow(builder.build());
+//
+//        try {
+//            // Não necessário esperar retorno, o mesmo demora devido a espera do
+//            // BARRIER
+//            RpcResult<AddFlowOutput> res = rpcResult.get(3, TimeUnit.SECONDS);
+//            return res.isSuccessful();
+//        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+//            LOG.error("Failed to write flow {}", e);
+//        }
 
         return true;
 
