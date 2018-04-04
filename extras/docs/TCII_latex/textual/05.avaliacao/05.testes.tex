@@ -1,6 +1,6 @@
 \section{Resultados}
 
-Para a realização dos testes, diferentes fluxos TCP foram originados a partir dos quatro computadores virtuais. Isto foi possível através da criação de \textit{scripts} que realizam o acesso, a requisição e o \textit{download} de conteúdo dos cinco servidores criados. A Figura \ref{cod:scriptsgera} exemplifica um \textit{script} que realiza duzentas mil requisições a diferentes servidores de aplicação e banco de dados.
+Para a realização dos testes, diferentes fluxos foram originados a partir dos quatro computadores virtuais. Isto foi possível através da criação de \textit{scripts} que realizam o acesso, a requisição e o \textit{download} de conteúdo dos cinco servidores criados. A Figura \ref{cod:scriptsgera} exemplifica um \textit{script} que realiza duzentas mil requisições a diferentes servidores de aplicação e banco de dados.
 
 \FloatBarrier
 \begin{figure}[H]
@@ -23,12 +23,12 @@ done
 \fonte{Elaborado pelo autor.}
 \end{figure}
 
-O número de pacotes gerados pelos fluxos acima, varia de 10 a 3000, dependendo do servidor. Através de registros de \textit{log} gerados pela aplicação desenvolvida e pela lista de endereços considerados ameaças foi possível verificar que o \textit{software} desenvolvido não classificou os fluxo gerados como ataque, não havendo portanto falsos positivos. Um resultado esperado, pois esse número de pacotes não é característico de uma varredura de porta.
+O número de pacotes gerados pelos fluxos acima, varia de 10 a 3000, dependendo do servidor. Através de registros de \textit{log} gerados pela aplicação e pela lista de endereços considerados ameaças foi possível verificar que o \textit{software} desenvolvido não classificou os fluxo gerados como ataque, um resultado esperado, pois esse número de pacotes não é característico de uma varredura de porta. Sendo assim, não foram detectados falsos positivos
 
 O \gls{ips} desenvolvido também registra a diferença de tempo entre o instante de tempo em que um novo pacote SYN é recebido pelo controlador e o instante de tempo em que o fluxo é enviado para os \textit{switches}. Essa diferença foi de aproximadamente quatro milissegundos, um tempo relativamente pequeno, que não gera atraso significativo ao fluxo pois não ocorre a cada pacote, sendo apenas um atraso inicial ao encaminhamento dos mesmos.
 
-Na Figura \ref{fig:lognormal} é apresentado parte do \textit{log} gerado pelo \gls{ips} desenvolvido e armazenado no diretório de \textit{logs} do controlador OpenDayight, neste, a cada fluxo inserido é registrado um evento indicando o fluxo, tando de encaminhamento como de retorno, e o tempo necessário para que o fluxo fosse registrado na tabela de encaminhamento.
-
+Na Figura \ref{fig:lognormal} é apresentado parte do \textit{log} gerado pelo \gls{ips} desenvolvido, neste, a cada fluxo inserido é registrado um evento indicando o registro e o tempo necessário para que o fluxo fosse registrado na tabela de encaminhamento.
+\FloatBarrier
 \begin{figure}[H]
 \centering
 \caption{Registro de \textit{log} criado com o recebimento de fluxos não maliciosos}
@@ -44,14 +44,12 @@ Na Figura \ref{fig:lognormal} é apresentado parte do \textit{log} gerado pelo \
 \label{fig:lognormal}
 \fonte{Elaborado pelo autor.}
 \end{figure}
-\FloatBarrier
 
 %================ HORIZONTAL ====================
 Dada a verificação de fluxos não maliciosos, foram realizados testes fazendo uso da ferramenta Nmap de forma com que fossem originados fluxos de varredura de porta.  Foram realizados testes individuais onde a cada chamada do comando Nmap é verificada uma porta de determinado \textit{host}, e automáticos, onde o \textit{software} Nmap envia vários fluxos para diferentes portas. 
 
-Um dos testes realizados consiste em verificar uma determinada porta em distintos \textit{hosts} da rede, o que caracteriza a varredura horizontal. Para isso foi utilizado o comando "nmap -p <PORTA> <IP>" onde PORTA e IP são respectivamente, a porta a ser verificada e o endereço IP do \textit{host} desejado. O resultado do comando pode ser visualizado na Figura \ref{fig:outnmapp}, onde é realizada a varredura da porta 22 do \textit{host} 10.0.0.31. Neste exemplo, pode-se observar que a porta 22 está aberta (\textit{open}), isso significa que há um serviço disponível que pode ser explorado.
-
-
+Um dos testes realizados consiste em verificar uma determinada porta em distintos \textit{hosts} da rede. Para isso foi utilizado o comando "nmap -p <PORTA> <IP>" onde PORTA e IP são respectivamente, a porta a ser verificada e o endereço IP do \textit{host} desejado. O resultado do comando pode ser visualizado na Figura \ref{fig:outnmapp}, onde é realizada a varredura da porta 22 do \textit{host} 10.0.0.31.
+\FloatBarrier
 \begin{figure}[H]
 \centering
 \caption{Saída da execução do comando nmap para varredura individual de portas}
@@ -70,9 +68,9 @@ Nmap done: 1 IP address (1 host up) scanned in 0.05 seconds
 \label{fig:outnmapp}
 \fonte{Elaborado pelo autor.}
 \end{figure}
-\FloatBarrier
-O teste acima foi realizado para diferentes \textit{hosts} de modo que produzisse uma varredura horizontal. O resultado esperado pode ser visualizado pelo \textit{log} gerado pelo IPS desenvolvido e exibido na Figura \ref{fig:loghor}. Nesta figura, as primeiras quatro linhas indicam a adição de fluxos por parte do controlador, na quinta houve a impressão do resultado do cálculo da análise que indica que três \textit{hosts} distintos foram escaneados em apenas uma porta. Já na sexta linha, é impresso o resultado da análise.
 
+O teste acima foi realizado para diferentes \textit{hosts} de modo que produzisse uma varredura horizontal. O resultado esperado pode ser visualizado pelo \textit{log} gerado pelo IPS desenvolvido e exibido na Figura \ref{fig:loghor}.
+\FloatBarrier
 \begin{figure}[H]
 \centering
 \caption{Registro de \textit{log} criado com o recebimento de fluxos de varredura horizontal}
@@ -87,7 +85,7 @@ O teste acima foi realizado para diferentes \textit{hosts} de modo que produziss
 \label{fig:loghor}
 \fonte{Elaborado pelo autor.}
 \end{figure}
-\FloatBarrier
+
 
 
 %================ VERITICAL ====================
@@ -114,7 +112,7 @@ Nmap done: 1 IP address (1 host up) scanned in 4.23 seconds
 \fonte{Elaborado pelo autor.}
 \end{figure}
 
-Este teste permitiu que o atacante verificasse uma grande quantidade de portas pois o intervalo de varredura foi bem menor que o intervalo de coleta e análise, porém, se o indivíduo tentar novamente realizar um ataque não irá conseguir pois a soma dos pesos das portas ultrapassou o limite preestabelecido, fazendo com que o endereço IP do atacante fosse adicionado na lista de endereços para descarte. O registro de \textit{log} do momento em que a varredura é detectada pode ser visualizada na Figura \ref{fig:logver}. Nesta, verifica-se na sétima linha, que a soma de pesos calculada na análise é muito superior a quinze, sendo então detectado o ataque e impresso seu tipo na oitava linha.
+Este teste permitiu que o atacante verificasse uma grande quantidade de portas pois o intervalo de varredura foi bem menor que o intervalo de coleta e análise, porém, se o indivíduo tentar novamente realizar um ataque não irá conseguir pois a soma dos pesos das portas ultrapassou o limite preestabelecido, fazendo com que o endereço IP do atacante fosse adicionado na lista de endereços para descarte. O registro de \textit{log} do momento em que a varredura é detectada pode ser visualizada na Figura \ref{fig:logver}.
 
 \FloatBarrier
 \begin{figure}[H]
@@ -137,7 +135,9 @@ Este teste permitiu que o atacante verificasse uma grande quantidade de portas p
 %================ FIN ====================
 Também foram realizados testes de varredura sem o pacote de inicialização SYN. No exemplo da Figura \ref{fig:outnmapsf}, o comando "nmap -sF <IP>" executa varredura através de exploração FIN. Como já abordado, quando um fluxo iniciar sem o pacote de inicialização SYN, o pacote é imediatamente descartado pelo controlador, por esta razão, o Nmap indicou que o \textit{host} está inacessível. O \textit{log} também pode ser visualizado na Figura \ref{fig:logfin} onde três pacotes foram descartados.
 
+Destaca-se que imagens de \textit{log} presentes nesta seção correspondem apenas às últimas linhas do mesmo pois a leitura completa dos mesmos se tornaria repetitiva. Também é importante enfatizar que a lista de endereços para descarte foi limpada entre as diferentes técnicas de varredura, se a lista fosse mantida, no segundo teste não haveriam fluxos encaminhados, visto que foram barrados no teste anterior.
 
+\FloatBarrier
 \begin{figure}[H]
 \centering
 \caption{Saída da execução do comando nmap para varredura FIN.}
@@ -165,38 +165,25 @@ Nmap done: 1 IP address (0 hosts up) scanned in 34.66 seconds
 \label{fig:logfin}
 \fonte{Elaborado pelo autor.}
 \end{figure}
-\FloatBarrier
-
-Destaca-se que imagens de \textit{log} presentes nesta seção correspondem apenas às últimas linhas do mesmo pois a leitura completa dos mesmos se tornaria repetitiva. Também é importante enfatizar que a lista de endereços para descarte foi zerada entre as diferentes técnicas de varredura, se a lista fosse mantida, no segundo teste não haveriam fluxos encaminhados, visto que já foram barrados no teste anterior.
-
-Após os testes, foram comparadas as estatísticas armazenadas na base de dados em relação aos fluxos originados. A Figura \ref{fig:base} exemplifica os fluxos armazenados na base de dados de determinado \textit{host}. Nesta figura tem-se respectivamente, o IP de origem do fluxo, o IP de destino deste fluxo, a porta de origem, a porta de destino, o número de pacotes deste fluxo e uma indicação se a linha corresponde ao pedido ou à uma resposta da requisição que originou o fluxo.
-Neste exemplo pode se verificar que o \textit{host} de IP 10.0.0.11 originou nove fluxos, cada fluxo possui duas linhas na figura, uma que indica o destino e outra para retorno da requisição. Através da coluna "Pacotes" observa-se um comportamento normal de acesso nos quatro primeiros fluxos gerados, representados em tons de cinza, pois o número de pacotes é superior a cinco. Nas linhas seguintes, em tons amarelados, observa-se que o número de pacotes dos respectivos fluxos é inferior a cinco, caracterizando uma varredura de porta. De acordo com as regras definidas neste trabalho, cada um dos fluxos de varredura possuem peso cinco, e como a soma destes alcança o limiar quinze, o \gls{ips} define estes fluxos como sendo um ataque, e deve ser descartado. Após a análise o atacante originou mais dois fluxos, que foram descartados, sendo armazenado na base de dados a quantia de um pacote por fluxo, correspondente ao pacote com \textit{flag} SYN recebido pelo controlador, isto pode ser visualizado nos fluxos em tons avermelhados representados na figura.
 
 
-\begin{figure}[H]
-  \centering
-  \caption{Exemplo de fluxos na base de dados.}
-  \includegraphics[width=.9\textwidth]{images/base.eps}
-  \fonte{Elaborado pelo autor.}
-  \label{fig:base}
-\end{figure}
-\FloatBarrier
 
-O Quadro \ref{fig:e1} apresenta uma análise quantitativa dos fluxos. Em sua segunda coluna são exemplificados os fluxos não maliciosos. Do total de 200.000 fluxos gerados, todos foram encaminhados, não apresentando falsos negativos. A terceira coluna apresenta os resultados da varredura horizontal, onde o comando "nmap -p" foi utilizado com a mesma porta para diferentes \textit{hosts}. Sendo assim, cada um dos quatro computadores tentou varrer os cinco servidores disponíveis o que originou vinte fluxos.
+Após os testes, foram comparadas as estatísticas armazenadas na base de dados em relação aos fluxos originados.
+Conforme mencionado, o comando "nmap -p" foi utilizado com a mesma porta para diferentes \textit{hosts} de modo a produzir varredura horizontal. Sendo assim, cada computador tentou varrer os cinco servidores disponíveis.
 
-Como a validação é realizada após a varredura de três \textit{hosts} distintos, a quantidade máxima de fluxos maliciosos a ser encaminhado esperada é de 12 fluxos, três por computador (\textit{host} origem). Contudo, a análise resultou em uma quantidade de fluxos igual a 14. Isto ocorreu devido a retransmissão de alguns pacotes, aumentando a quantidade de pacotes por fluxo, e assim, sendo identificados como não maliciosos. Estes fluxos passaram a ser considerados maliciosos apenas no quarto ou no quinto \textit{host} verificado, quando o número de pacotes não passou os cinco estabelecidos. Estes valores podem ser visualizados na terceira coluna do Quadro \ref{fig:e1}.
+Como a validação é realizada após a varredura de três \textit{hosts} distintos, a quantidade máxima de fluxos maliciosos a ser encaminhado esperada é de doze fluxos. Contudo, a análise resultou em uma quantidade de fluxos igual a quatorze. Isto ocorreu devido a retransmissão de alguns pacotes, aumentando a quantidade de pacotes por fluxo, e assim, sendo identificados como não maliciosos. Estes fluxos passaram a ser considerados maliciosos apenas no quarto ou no quinto \textit{host} verificado. Estes valores podem ser visualizados no Quadro \ref{fig:e1}, coluna "nmap -p".
 
-Na quarta coluna, que representa a execução de varredura vertical, foram gerados mil fluxos maliciosos, essa geração, por ter sido automática, foi consideravelmente mais rápida do que o intervalo de coleta, o que acarretou no encaminhamento de 658 fluxos maliciosos. No momento em que o \textit{software} terminou a análise e os endereços foram adicionados na lista de endereços para descarte, o sistema passou a descartar os 342 pacotes restantes. Além disso, essa varredura também teve alguns pacotes duplicados, fazendo com que doze fluxos que deveriam ser considerados maliciosos, fossem encaminhados como fluxo não malicioso.
+Na coluna que representa a execução de varredura horizontal, foram gerados mil fluxos maliciosos, essa geração, por ter sido automática, foi consideravelmente mais rápida do que a coleta, o que acarretou no encaminhamento de vários fluxos maliciosos. No momento em que o \textit{software} terminou a análise e os endereços foram adicionados na lista de endereços para descarte, o sistema passou a descartar os pacotes. Além disso, essa varredura também teve alguns pacotes duplicados, fazendo com que doze fluxos que deveriam ser considerados maliciosos, passasem como fluxo não malicioso.
 
-Na última coluna são apresentados os números referentes à varredura por exploração FIN. Como citado anteriormente, fluxos não iniciados com pacote SYN são imediatamente descartados, isto pode ser comprovado através dos números apresentados. Todos os mil fluxos originados foram descartados.
+Na última coluna são apresentados os números referentes à varredura por exploração FIN. Como citado anteriormente, fluxos não iniciados com pacote SYN são imediatamente descartados, isto pode ser comprovado através dos números apresentados. Todos os fluxos maliciosos foram descartados.
 
 \begin{table}[H]
 \centering
 \caption{Resultados das análises de varreduras.}
 \label{fig:e1}
-\begin{tabular}{|l|c|c|c|c|}
+\begin{tabular}{|l|l|c|c|c|}
 \hline
-\multicolumn{1}{|c|}{} & Não maliciosos & TCP Con. Hor. & TCP Con. Ver. & Expl. FIN \\ \hline
+\multicolumn{1}{|c|}{} & Não maliciosos & nmap -p & nmap -sT & nmap -sF \\ \hline
 Fluxos Gerados         & 200000          & 20      & 1000     & 1000     \\ \hline
 Fluxos Encaminhados    & 200000          & 14      & 658      & 0        \\ \hline
 Fluxos Bloqueados      & 0              & 8       & 342      & 1000     \\ \hline
@@ -206,15 +193,16 @@ Falsos Negativos       & 0              & 2       & 12       & 0        \\ \hlin
 \fonte{Elaborado pelo autor.}
 \end{table}
 
-O mesmo procedimento acima realizado foi novamente executado a fim de verificar se de fato todos os fluxos foram adicionados na lista de endereços para descarte. Neste procedimento a lista de endereços para descarte não foi limpa e o resultado encontra-se no Quadro \ref{fig:e2}. Neste pode-se observar que todos os fluxos gerados, inclusive os não maliciosos, foram descartados. Isto é resultado da análise das varreduras anteriores onde todos os \textit{hosts} efetuaram ataques de varredura e foram adicionados na lista para descarte.
+O mesmo procedimento acima realizado foi novamente executado a fim de verificar se de fato todos os fluxos foram adicionados na lista de endereços para descarte. Neste procedimento a lista não foi limpa e o resultado encontra-se no Quadro \ref{fig:e2}. Neste pode-se observar que todos os fluxos, inclusive os não maliciosos foram descartados. Isto é resultado da análise das varreduras anteriores onde todos os \textit{hosts} efetuaram ataques de varredura e foram adicionados na lista para descarte.
+
 
 \begin{table}[H]
 \centering
 \caption{Resultados das análises de varreduras após estabelecido o descarte.}
 \label{fig:e2}
-\begin{tabular}{|l|c|c|c|c|}
+\begin{tabular}{|l|l|c|c|c|}
 \hline
-\multicolumn{1}{|c|}{} & Não maliciosos & TCP Con. Hor. & TCP Con. Ver. & Expl. FIN \\ \hline
+\multicolumn{1}{|c|}{} & Não maliciosos & nmap -p & nmap -sT & nmap -sF \\ \hline
 Fluxos Gerados         & 200000          & 20      & 1000     & 1000     \\ \hline
 Fluxos Encaminhados    & 0               & 0      & 0      & 0        \\ \hline
 Fluxos Bloqueados      & 200000         & 20       & 1000      & 1000     \\ \hline

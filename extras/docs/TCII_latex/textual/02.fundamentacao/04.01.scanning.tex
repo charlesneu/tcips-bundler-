@@ -7,7 +7,7 @@ Uma das principais dificuldades nas soluções desse tipo de ataque é que as va
 
 Antes de explorar as técnicas de varredura, faz-se necessário o entendimento de alguns conceitos de comunicação \gls{tcp}. Para obter um serviço \gls{tcp}, uma conexão necessita ser efetivada entre os computadores origem e destino. Esta conexão é realizada através dos chamados \textit{sockets}, formados pelo par endereço \gls{ip} e número de porta, de ambos, computador de origem e computador de destino. Entre estes dois \textit{sockets} ocorre a transferência de segmentos.
 
-Um segmento consiste em um cabeçalho \gls{tcp} seguido, opcionalmente, por informação. Um cabeçalho \gls{tcp} pode possuir seis \textit{flags} que podem ser ativadas ou desativadas ao mesmo tempo \cite{Comer:2013}, são elas:
+Um segmento consiste em um cabeçalho \gls{tcp} seguido, opcionalmente, por informação. Um cabeçalho \gls{tcp} pode possuir seis \textit{flags} que podem ser ativadas ou desativadas ao mesmo tempo \cite{Comer:1988}, são elas:
 
 \begin{itemize}
     \item \textbf{SYN} - \textit{bit} de sincronismo, é o \textit{bit} que informa que este é um dos dois primeiros segmentos de estabelecimento da conexão.
@@ -47,26 +47,22 @@ Os passos a seguir são definidos pela RFC 793 \cite{rfc793}, utilizada pela gra
 \end{itemize}
 
 
-Devido à sua natureza, \textit{scans} podem facilmente criar um vasto número diferente de fluxos. Segundo Speroto \textit{et al.} (2010)\nocite{Sperotto:2010}, há três categorias de varredura, são elas:
-\begin{itemize}
-    \item \textbf{\textit{scan} horizontal} - quando um \textit{host} de origem varre uma porta especifica em diferentes \textit{hosts} alvo;
-    \item \textbf{\textit{scan} vertical} - quando um \textit{host} de origem verifica várias portas distintas de um mesmo \textit{host} alvo; e
-    \item \textbf{\textit{scan} misto} - quando há a combinação das varreduras vertical e horizontal.
-\end{itemize}
+Devido à sua natureza, \textit{scans} podem facilmente criar um vasto número diferente de fluxos.
+Há três categorias de \textit{scans}: \textit{scan} horizontal - onde um \textit{host} varre uma porta especifica em diferentes \textit{hosts}; \textit{scan} vertical - um \textit{host} verifica várias portas em um outro \textit{host} específico; e \textit{block scan} que é a combinação dos dois \cite{Sperotto:2010}.
 
-Existem várias técnicas de varredura de porta disponíveis e podem facilmente ser automatizadas por ferramentas como Nmap \cite{Lyon:2009}. Alguns métodos utilizados para varredura são estudados a seguir \cite{deVivo:1999, Christopher:2001}.
-\begin{itemize}
-\item \textbf{\textit{TCP Connect}} - É a forma mais comum de \textit{scanning}. Basicamente uma conexão TCP regular (\textit{handshake} completo) para cada porta definida na varredura. Para cada porta, a conexão pode resultar em sucesso, indicando uma porta aberta ou em falha caso contrário. Essa técnica é facilmente implementada pois não necessita de privilégios especiais e, do mesmo modo, é facilmente detectável. Através de \textit{logs} do sistema alvo é possível verificar mensagens de requisição de conexão e de erro para as conexões negadas. Neste método, o \textit{scanner} envia uma mensagem SYN para o sistema alvo. Se uma porta estiver (aberta) ouvindo com um serviço, a conexão se sucederá. Um SYN é retornado estabelecendo o número de sequência inicial. Um ACK considera o campo numérico de confirmação válido. Se a porta estiver (fechada) sem serviço ouvindo, uma mensagem RST é retornada, para reiniciar o pedido de conexão. Alguns exemplos de \textit{scanners} podem ser Nmap, Amap e Blaster. %Exemplo de \textit{scanner}: nmap.
+Existem várias técnicas de varredura de porta disponíveis e podem facilmente ser automatizadas por ferramentas como Nmap \cite{Lyon:2009}. Alguns métodos utilizados para varredura serão estudados a seguir \cite{deVivo:1999, Christopher:2001}.
 
-\item \textbf{TCP SYN} - Também conhecida por \textit{Half Open} por não explorar um \textit{handshake} completo. Nesta técnica o \textit{scanner} envia uma mensagem SYN, como se estivesse pedindo uma conexão. Se responder como um RST, indica que a porta está fechada, e uma nova porta é testada. Se a resposta da máquina alvo for um SYN/ACK, indica que a porta se encontra ouvindo. O \textit{scanner} envia então um RST cancelando o \textit{handshake}. A vantagem desse tipo de \textit{scanning} é o fato de, mesmo ainda podendo ser detectado, tentativas de conexões SYN são menos frequentemente registradas se comparadas com conexões \gls{tcp} completas. %Exemplos de \textit{scanners}: amap, hping2, netstat, nmap.
+\textbf{\textit{TCP Connect}} - É a forma mais comum de \textit{scanning}. Basicamente uma conexão TCP regular (\textit{handshake} completo) para cada porta definida na varredura. Para cada porta, a conexão pode resultar em sucesso, indicando uma porta aberta ou em falha caso contrário. Essa técnica é facilmente implementada pois não necessita de privilégios especiais e, do mesmo modo, é facilmente detectável. Através de \textit{logs} do sistema alvo é possível verificar mensagens de requisição de conexão e de erro para as conexões negadas. Neste método, o \textit{scanner} envia uma mensagem SYN para o sistema alvo. Se uma porta estiver (aberta) ouvindo com um serviço, a conexão se sucederá. Um SYN é retornado estabelecendo o número de sequência inicial. Um ACK considera o campo numérico de confirmação válido. Se a porta estiver (fechada) sem serviço ouvindo, uma mensagem RST é retornada, para reiniciar o pedido de conexão. Alguns exemplos de \textit{scanners} podem ser Nmap, Amap e Blaster. %Exemplo de \textit{scanner}: nmap.
 
-\item \textbf{Exploração FIN} - Neste método, quando um segmento FIN é enviado para uma porta fechada, o computador alvo responde com um TCP RST. Quando a porta estiver aberta, o segmento é ignorado e o computador alvo não responde. O \textit{scanner} não recebe nunhuma resposta, pois não podem pertencer a uma conexão estabelecida. %Exemplos de \textit{scanners}: hping2, nmap.
+\textbf{TCP SYN} - Também conhecida por \textit{Half Open} por não explorar um \textit{handshake} completo. Nesta técnica o \textit{scanner} envia uma mensagem SYN, como se estivesse pedindo uma conexão. Se responder como um RST, indica que a porta está fechada, e uma nova porta é testada. Se a resposta da máquina alvo for um SYN/ACK, indica que a porta se encontra ouvindo. O \textit{scanner} envia então um RST cancelando o \textit{handshake}. A vantagem desse tipo de \textit{scanning} é o fato de, mesmo ainda podendo ser detectado, tentativas de conexões SYN são menos frequentemente registradas se comparadas com conexões \gls{tcp} completas. %Exemplos de \textit{scanners}: amap, hping2, netstat, nmap.
 
-\item \textbf{Xmas Tree} - é uma variação do método TCP FIN, neste, são utilizadas mensagens com prioridade TCP FIN/URG/PSH. Quando estiver ouvindo, o \textit{host} alvo não responde, caso contrário, responde com um TCP RST. %Exemplos de \textit{scanners}: hping2, netstat, nmap.
+\textbf{Exploração FIN} - Neste método, quando um segmento FIN é enviado para uma porta fechada, o computador alvo responde com um TCP RST. Quando a porta estiver aberta, o segmento é ignorado e o computador alvo não responde. O \textit{scanner} não recebe nunhuma resposta, pois não podem pertencer a uma conexão estabelecida. %Exemplos de \textit{scanners}: hping2, nmap.
 
-\item \textbf{TCP Null (sem flags ativos)} - também é uma variação do método TCP FIN, neste, tem-se resposta para portas fechadas, mas não para portas abertas.% Exemplos de \textit{scanners}: hping2, netstat, nmap.
+\textbf{Xmas Tree} - é uma variação do método TCP FIN, neste, são utilizadas mensagens com prioridade TCP FIN/URG/PSH. Quando estiver ouvindo, o \textit{host} alvo não responde, caso contrário, responde com um TCP RST. %Exemplos de \textit{scanners}: hping2, netstat, nmap.
 
-\item \textbf{Varredura ACK} - Técnica utilizada para identificar \textit{firewalls}. Um segmento ACK que não pertença a nenhum conexão é gerado pelo \textit{scanner}. Se um RST é devolvido pela máquina alvo, tanto em uma porta aberta como em uma fechada, as portas são classificadas como não tendo \textit{firewall}.
+\textbf{TCP Null (sem flags ativos)} - também é uma variação do método TCP FIN, neste, tem-se resposta para portas fechadas, mas não para portas abertas.% Exemplos de \textit{scanners}: hping2, netstat, nmap.
 
-\item \textbf{Varredura ARP} - Não se trata exatamente de varredura de portas mas essa técnica é utilizada para descobrir dispositivos ativos na rede local, para depois realizar a varredura de portas somente nos computadores ativos. O \textit{scanner} envia uma série de pacotes de protocolo \gls{arp} \cite{RFC0826} e incrementa o valor do \gls{ip} alvo a cada \textit{broadcast}.
-\end{itemize}
+\textbf{Varredura ACK} - Técnica utilizada para identificar \textit{firewalls}. Um segmento ACK que não pertença a nenhum conexão é gerado pelo \textit{scanner}. Se um RST é devolvido pela máquina alvo, tanto em uma porta aberta como em uma fechada, as portas são classificadas como não tendo \textit{firewall}.
+
+\textbf{Varredura ARP} - Não se trata exatamente de varredura de portas mas essa técnica é utilizada para descobrir dispositivos ativos na rede local, para depois realizar a varredura de portas somente nos computadores ativos. O \textit{scanner} envia uma série de pacotes de protocolo \gls{arp} \cite{RFC0826} e incrementa o valor do \gls{ip} alvo a cada \textit{broadcast}.
+

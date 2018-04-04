@@ -1,24 +1,15 @@
-\section{Redes Definidas por Software}
+\section{Redes definidas por software}
 \label{sec:sdn-openflow}
 
 As redes de computadores se tornaram parte da infraestrutura crítica de empresas, escolas e residências, tendo crescido bastante desde a sua origem. O sucesso das redes de computadores se deve, em grande parte, à simplicidade de seu núcleo. Na arquitetura atual, a inteligência está localizada nos sistemas de borda, enquanto que o núcleo é simples e transparente. Embora essa simplicidade tenha tido sucesso, também é razão para o seu engessamento, pois apresenta limitações estruturais que são difíceis de serem resolvidas, tais como escalabilidade, mobilidade e gerenciamento de serviço \cite{Clarkl:2004}.
 
-Por causa desta expansão, o trabalho dos pesquisadores da área tornou-se muito mais importante, porém mesmo com o grande número de equipamentos e protocolos criados para suportar essa expansão, ainda tem-se uma grande barreira. A maioria das ideias que surgem não conseguem ser testadas por falta de maneiras práticas que possibilitem a realização de experimentos com novos protocolos em uma rede realista, para que possa obter a confiança necessária para uma implantação em escala global \cite{McKeown:2008}. 
+Por causa desta expansão, o trabalho dos pesquisadores da área tornou-se muito mais importante, porém mesmo com o grande número de equipamentos e protocolos criados para suportar essa expansão, surgiu uma enorme barreira: a maioria das ideias que surgem não conseguem ser testadas por falta de maneiras práticas que possibilitem a realização de experimentos com novos protocolos em uma rede realista, para que possa obter a confiança necessária para uma implantação em escala global \cite{McKeown:2008}. 
 
-Como apresentado por Kreutz \cite{Kreutz:2014}, redes de computadores podem ser separadas em três planos: de controle, de dados e de gerência. Entende-se por plano de controle a porção da rede que abriga os \textit{softwares} responsáveis por ditar o comportamento da rede. Decisões de roteamento, \textit{firewall}, priorização de pacotes são de responsabilidade do plano de controle. O plano de dados é o que executa o encaminhamento dos pacotes com base nas regras ditadas pelo plano de controle. Já o plano de gerência inclui serviços utilizados para monitorar a rede e configurar remotamente o plano de controle utilizando protocolos como \gls{snmp} \cite{RFC1157}. 
+Como apresentado por Kreutz \textit{et al.} (2014)\nocite{Kreutz:2014}, redes de computadores podem ser separadas em três planos: de controle, de dados e de gerência. 
 
-Em síntese, o plano de gerência define as regras da rede, o de controle implementa essas regras e o plano de dados realiza o encaminhamento de pacotes de acordo com as regras impostas pelo plano de controle. Em redes \gls{ip} tradicionais, os planos de controle e dados são acoplados em um mesmo hardware, como pode ser visualizado na Figura \ref{fig:planos-introducao}, tornando a arquitetura de rede complexa e por consequência dificulta a sua configuração e o seu gerenciamento.
+Entende-se por plano de controle a porção da rede que abriga os \textit{softwares} responsáveis por ditar o comportamento da rede. Decisões de roteamento, \textit{firewall}, priorização de pacotes são de responsabilidade do plano de controle. O plano de dados é o que executa o encaminhamento dos pacotes com base nas regras ditadas pelo plano de controle. Já o plano de gerência inclui serviços utilizados para monitorar a rede e configurar remotamente o plano de controle utilizando protocolos como \gls{snmp} \cite{RFC1157}. 
 
-
-\begin{figure}[H]
-  \centering
-  \caption{Planos de redes de computadores.}
-  \includegraphics[width=.9\textwidth]{images/planos-introducao.eps}
-  \fonte{Comer, 2013. \nocite{Comer:2013}}
-  \label{fig:planos-introducao}
-  
-\end{figure}
-\FloatBarrier
+Em síntese, o plano de gerência define as regras da rede, o de controle implementa essas regras e o plano de dados realiza o encaminhamento de pacotes de acordo com as regras impostas pelo plano de controle. Em redes \gls{ip} tradicionais, os planos de controle e dados são acoplados em um mesmo hardware, tornando a arquitetura de rede complexa e por consequência dificulta a sua configuração e o seu gerenciamento.
 
 Para tentar contornar esse problema, a comunidade de pesquisa em redes de computadores tem investido em iniciativas que levem a implantação de redes com maiores recursos de programação, de forma que novas tecnologias possam ser inseridas na rede de forma gradual. Exemplos de iniciativas desse tipo são as propostas de redes ativas (\textit{active networks}) \cite{Tennenhouse:1997}, de \textit{testbeds} como o PlanetLab \cite{Chun:2003}, GENI \cite{Turner:2006} e, mais recentemente o FIBRE \cite{Salmito:2014}. Redes ativas, tiveram pouca aceitação pela necessidade de alteração dos elementos de rede para permitir que se tornassem programáveis. Iniciativas mais recentes como PlanetLab, GENI e FIBRE, apostam na adoção de recursos de virtualização para facilitar a transição para novas tecnologias. Apesar de serem consideradas de grande potencial a longo prazo, tais iniciativas ainda enfrentam desafios como garantir o desempenho exigido pelas aplicações utilizadas hoje utilizando-se tais elementos virtualizados \cite{Guedes:2006}.
 
@@ -28,13 +19,13 @@ Uma outra forma de abordar esse problema, consiste em estender o \textit{hardwar
 
 No plano de dados, o encaminhamento de pacotes, que antes era baseado em destino, passa a ser por fluxo que é definido pela combinação de campos das camadas de enlace, de rede ou de transporte, segundo o modelo TCP/IP. Dessa forma mantém-se o alto desempenho no encaminhamento de pacotes em \textit{hardware}, aliado à flexibilidade de se implementar aplicações em \textit{software}, utilizando protocolo aberto para programação da lógica do equipamento que é abstraída dos dispositivos de encaminhamento \cite{Kim:2013, Tootoonchian:2010, Rothenberg:2010}.
 
-Pensando nisso, nasceu o OpenFlow \cite{McKeown:2008}, que por sua vez, deu origem ao conceito de \textit{Software Defined Networking}, ou redes definidas por software. A Figura \ref{fig:arch-old-sdn} apresenta um comparativo entre o modelo tradicional de rede, onde ambos os planos, de controle e de dados, são localizados em um mesmo dispositivo e o modelo \gls{sdn} que possui controle centralizado e apenas o plano de dados no dispositivo comutador.
+Pensando nisso, nasceu o OpenFlow \cite{McKeown:2008}, que por sua vez, deu origem ao conceito de \textit{Software Defined Networking}, ou redes definidas por software. A Figura \ref{fig:arch-old-sdn} apresenta um comparativo entre o modelo tradicional de rede, onde onde ambos os planos, de controle e de dados, são localizados em um mesmo dispositivo e o modelo \gls{sdn} que possui controle centralizado e apenas o plano de dados no dispositivo comutador.
 
 \begin{figure}[H]
   \centering
   \caption{Modelos de rede tradicional e SDN}
   \includegraphics[width=.80\textwidth]{images/arch-old-sdn.eps}
-  \fonte{Rothenberg \textit{et al.}, 2010. \nocite{Rothenberg:2010}}
+  \fonte{Rothenberg \textit{et al.} (2010) \nocite{Rothenberg:2010}}
   \label{fig:arch-old-sdn}
 \end{figure}
 \FloatBarrier
@@ -63,13 +54,13 @@ Estes componentes podem fazer uso do protocolo OpenFlow e/ou de outros protocolo
   \caption{Tabela de fluxo}
   \includegraphics[width=.65\textwidth]{images/flow-table.eps}
   \label{fig:flow-table}
-  \fonte{Adaptado de Costa, 2014 \nocite{Costa:2004}}
+  \fonte{Adaptado de Costa (2014) \nocite{Costa:2004}}
 \end{figure}
 \FloatBarrier
 %Copiado e artigo 6, reescrever
 Quando um pacote chega a um equipamento com OpenFlow habilitado, os cabeçalhos do pacote são comparados (\textit{match}) às regras das entradas das tabelas de fluxos, os contadores são atualizados e as ações correspondentes são realizadas. Se não houver correspondência  (\textit{table miss}) entre o pacote e alguma entrada da tabela de fluxos, o pacote é encaminhado, por completo, ao controlador. Alternativamente, apenas o cabeçalho é encaminhado ao controlador mantendo o pacote armazenado no \textit{buffer} do \textit{hardware}. A Figura \ref{fig:fluxo-tmp} ilustra, através de um diagrama simplificado, o tratamento recebido por pacotes em um \textit{switch} OpenFlow.
 
-Os pacotes que chegam ao controlador normalmente correspondem ao primeiro pacote de um novo fluxo ou, em função do tipo de pacote e da aplicação, o controlador pode decidir por instalar uma regra no \textit{switch} para que todos os pacotes de determinado fluxo sejam enviados para o controlador para serem tratados individualmente. Esse último caso corresponde, em geral, a pacotes de controle  (\gls{icmp} \cite{RFC0792}, \gls{dns} \cite{RFC7719}, \gls{dhcp} \cite{RFC2131}) ou de protocolos de roteamento  (\gls{ospf} \cite{RFC2328}, \gls{bgp} \cite{RFC4271}).
+Os pacotes que chegam ao controlador normalmente correspondem ao primeiro pacote de um novo fluxo ou, em função do tipo de pacote e da aplicação, o controlador pode decidir por instalar uma regra no \textit{switch} para que todos os pacotes de determinado fluxo sejam enviados para o controlador para serem tratados individualmente. Esse último caso corresponde, em geral, a pacotes de controle  (\gls{icmp} \cite{RFC0792}, \gls{dns} \cite{RFC7719}, \gls{dhcp} \cite{RFC2131}) ou de protocolos de roteamento (\gls{ospf} \cite{RFC2328}, \gls{bgp} \cite{RFC4271}).
 Todos os pacotes de uma mesma faixa de endereços \gls{ip}, ou uma conexão \gls{tcp} em determinada porta são considerados fluxos.
 
 \begin{figure}[H]
@@ -120,7 +111,7 @@ Neste projeto o comutador a ser utilizado é o Open vSwitch \cite{website:ovs}, 
 
 O controlador, como já citado, é o \textit{software} responsável por tomar decisões e adicionar e remover as entradas na tabela de encaminhamento, de acordo com o objetivo desejado. Exerce a função de uma camada de abstração da infraestrutura física, facilitando a criação de aplicações e serviços que gerenciem as entradas de fluxos na rede. Esse modelo assemelha-se a outros sistemas de \textit{software} que proveem abstração do \textit{hardware} e funcionalidade reutilizável. Dessa forma, o controlador atua como um \gls{so} para gerenciamento e controle das redes, e oferece uma plataforma com base na reutilização de componentes e na definição de níveis de abstração. Contudo, novas aplicações de rede podem ser desenvolvidas rapidamente \cite{Gude:2008}.
 
-O controlador fornece uma interface para criar, modificar e controlar o fluxo de tabelas do comutador. É executado normalmente em um servidor conectado à rede e pode ser um para todos os comutadores da rede, um para cada comutador ou um para um conjunto de comutadores.  Portanto, a funcionalidade da rede de controle pode ser completamente ou localmente centralizada dependendo de como o gerenciamento dos comutadores é realizada. A exigência, no entanto, é que, se houver mais do que um controlador de processos, eles devem ter a mesma visão da topologia da rede, em qualquer momento dado. A visão de rede inclui a topologia a nível de \textit{switch}, as localizações dos usuários, \textit{hosts}, \textit{middleboxes} e outros elementos de rede e serviços. Além disso inclui todas as ligações entre os nomes e endereços.
+O controlador fornece uma interface para criar, modificar e controlar o fluxo de tabelas do comutador. É executado normalmente em um servidor conectado à rede e pode ser um para todos os comutadores da rede, um para cada comutador ou um para um conjunto de comutadores.  Portanto, a funcionalidade da rede de controle pode ser completamente ou localmente centralizada de acordo de como o gerenciamento dos comutadores é realizada. A exigência, no entanto, é que, se houver mais do que um controlador de processos, eles devem ter a mesma visão da topologia da rede, em qualquer momento dado. A visão de rede inclui a topologia a nível de \textit{switch}, as localizações dos usuários, \textit{hosts}, \textit{middleboxes} e outros elementos de rede e serviços. Além disso inclui todas as ligações entre os nomes e endereços.
 
 O controlador é parte integrante de uma arquitetura de rede \gls{sdn} e para que sua comunicação com \textit{switches} OpenFlow ocorra, o controlador deve ter suporte ao mesmo. Atualmente, existem várias implementações controlador disponíveis que implementam o protocolo OpenFlow, entre os principais não comerciais estão \cite{Kreutz:2013,Xia:2015}:
 
@@ -156,7 +147,7 @@ Mensagens assíncronas são enviadas pelo \textit{switch} sem a solicitação do
 \begin{itemize}
     \item \textit{\textbf{Packet-In}}: enviado pelo \textit{switch} quando há uma ação explícita na tabela de fluxos para que seja enviado para o controlador ou quando não há um \textit{match} para o pacote.
     \item \textit{\textbf{Flow-Removed}}: informa o controlador sobre a remoção de regras no \textit{switch}.
-    \item \textit{\textbf{Port Status}}: informa o controlador sobre uma mudança em alguma porta.
+    \item \textit{\textbf{Port Status}}: obtém status das portas do \textit{switch}.
     \item \textit{\textbf{Role Status}}: \textit{switch} informa o controlador sobre a alterações em suas regras.
     \item \textit{\textbf{Controller Status}}: \textit{switch} informa o controlador sobre a mudança em um canal OpenFlow.
     \item \textit{\textbf{Flow-monitor}}: informa o controlador sobre uma mudança na tabela de fluxo.
@@ -171,7 +162,7 @@ latência, largura de banda e conectividade.
     \item \textit{\textbf{Experimenter}}: na versão 1.5.0 do protocolo OpenFlow, esta mensagem é utilizada para adicionar funcionalidades experimentais.
 \end{itemize}
 
-Cada mensagem é enviada encapsulada em um pacote definido pelo protocolo OpenFlow e que é representado na Figura \ref{fig:openflow-message}.
+Cada mensagem é enviada encapsulada em um pacote definido pelo protocolo OpenFlow e que é representado na Figura \ref{fig:openflow-message} abaixo.
 
 \begin{figure}[H]
   \centering

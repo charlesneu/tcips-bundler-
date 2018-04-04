@@ -3,15 +3,19 @@
 
 O objetivo geral desse trabalho foi apresentar uma arquitetura não intrusiva que permita, de maneira eficaz, coletar estatísticas de fluxo em redes \gls{sdn}, verificar a ocorrência de fluxos de varredura de porta e então, incrementar a segurança da rede através da atualização das regras de encaminhamento. Nesse sentido, foi realizada uma revisão da área de redes definidas por software visando suportar a proposição do trabalho.
 
-Na base da arquitetura encontra-se um modelo de análise de estatísticas da tabela de fluxo. Esse modelo procura simplificar a coleta de informações, visto que, ao invés de inspecionar todos os pacotes, ocasionando atraso na comutação da rede, considera-se apenas informações presentes na tabela de fluxo dos \textit{switches} OpenFlow.
+Na base da arquitetura encontra-se um modelo de análise de estatísticas da tabela de fluxo. Esse modelo procura simplificar a coleta de informações, visto que, ao invés de inspecionar todos os pacotes, ocasionando atraso na comutação da rede, considera-se apenas informações presentes na tabela de fluxo dos \textit{switches} OpenFlow. Tal abordagem possibilita um ganho de desempenho se comparado com abordagens de coleta de fluxo já que as informações são alimentadas pelo próprio \textit{switch}. Desta forma, salienta-se que, em função da simplificação, a precisão do processo também é minimizada.
 
-As simulações realizadas produziram resultados coerentes com o esperado. Foi possível comprovar a eficácia na detecção de fluxos maliciosos através de estatísticas, que resultaram na ausência de falsos positivos e em um número baixíssimo de falsos negativos. O sistema desenvolvido também apresentou suas limitações, que são: a necessidade de inserção de regras distintas nos \textit{switches}; e o intervalo de coleta superior ao de varreduras, permitindo que o atacante efetuasse uma série de varreduras antes de ser detectado.
+\section{Conclusão}
 
-Um ponto a ser considerado é o fato de existirem, na literatura, poucos trabalhos relacionados à prevenção de ataques de varredura de porta para \gls{sdn}. Além disso, os projetos disponíveis que fazem detecção de varredura de porta, não possuem proteção contra os mesmos, ou utilizam tráfego para análise, o que torna este trabalho uma alternativa relevante.
+As simulações realizadas produziram resultados coerentes com o esperado. Foi possível comprovar a eficácia na detecção de fluxos maliciosos através de estatísticas, que resultaram na ausência de falsos positivos e em um número baixíssimo de falsos negativos. O sistema desenvolvido também apresentou suas limitações, que são: a necessidade de inserção de regras distintas nos \textit{switches}; e o intervalo de coleta superior ao de varreduras, permitindo que o atacante fizesse uma série de varreduras antes de ser detectado.
+
+Um ponto a ser considerado é o fato de existirem, na literatura, poucos trabalhos relacionados à prevenção de ataques de varredura de porta para \gls{sdn}. Além disso, os projetos disponíveis que fazem detecção de varredura de porta, não possuem proteção contra os mesmos, o que torna este trabalho uma alternativa relevante.
+
+\section{Trabalhos Futuros}
 
 Considerando que o presente trabalho descreveu a prevenção de ataques de varredura de porta sobre ambientes simulados, e as limitações que o sistema desenvolvido possui, como possíveis trabalhos futuros pode-se sugerir:
 \begin{itemize}
-    \item a análise de testes utilizando tráfego de dados legítimo, o que pode ser obtido através de testes em redes de experimentação (\textit{testbeds}).
+    \item a análise de testes utilizando tráfego de dados legítimo, o que pode ser obtido através de testes em redes de experimentação (\textit{testbeds});
     \item a análise de protocolos adotados para a implementação de Redes Definidas por Software a fim de obter e analisar estatísticas em um intervalo menor sem sobrecarregar a rede;
     \item a análise das \textit{flags} dos pacotes recebidos a fim de eliminar pacotes duplicados e/ou retransmitidos, reduzindo o número de falsos negativos gerados; e
     \item estender a utilização dos contadores/estatísticas para desenvolver métodos de detecção e/ou prevenção de outros tipos de ataques.

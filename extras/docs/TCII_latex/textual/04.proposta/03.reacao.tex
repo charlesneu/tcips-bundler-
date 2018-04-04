@@ -1,7 +1,7 @@
 \section{Ações de reação}
 \label{sec:reacao}
 
-Inicialmente, todos os comutadores possuem suas tabelas de encaminhamento vazias. Sendo assim, ao receber um pacote ocorre um \textit{table miss} e o pacote é encaminhado para o controlador através de uma mensagem \textit{Packet In}.
+Inicialmente, todos os comutadores possuem suas tabelas de encaminhamento vazias.Sendo assim, ao receber um pacote ocorre um \textit{table miss} e o pacote é encaminhado para o controlador através de uma mensagem \textit{Packet In}.
 
 O controlador por si só, não realiza operações sobre a mensagem recebida, por isso, foi desenvolvido juntamente com este IPS, um interpretador de mensagens \textit{Packet In}. Este analisa os dados do cabeçalho do pacote obtendo as informações de origem e destino do fluxo e os compara com os endereços armazenados na lista de endereços maliciosos para descarte. Dependendo do resultado, o controlador poderá adicionar no \textit{switch} uma regra de encaminhamento o ou tomar uma ação de prevenção, adicionando uma regra para descarte do fluxo.
 
@@ -14,7 +14,7 @@ Mensagens para alteração da tabela de encaminhamento podem ter os seguintes ti
     \item \textbf{OFPFC\_DELETE\_STRICT} - Remove entradas de fluxo validando estritamente seus campos, ou seja, apenas uma entrada da tabela é removida.
 \end{itemize}
 
-Entradas de fluxos podem ser removidos da tabela de encaminhamento por duas maneiras: através da requisição do controlador e pelo mecanismo de \textit{timeout}. O mecanismo de \textit{timeout} é executado pelo \textit{switch} independentemente do controlador e é baseado na configuração e no estado das entradas de fluxo. Neste trabalho, foi definido um intervalo de \textit{timeout} para cada fluxo para que não ocorra \textit{overflow} de regras nas tabelas de encaminhamento. Um fluxo só permanecerá na tabela por intervalo de quinze segundos após o recebimento de seu último pacote, com exceção para as entradas de fluxo para descarte, nestes o \textit{timeout} foi definido em zero a fim de prover a proteção até que o administrador, manualmente, o remova da tabela.
+Entradas de fluxos podem ser removidos da tabela de encaminhamento por três maneiras: através da requisição do controlador, pelo mecanismo de \textit{timeout}, ou pelo mecanismo de despejo opcional. O mecanismo de \textit{timeout} é executado pelo \textit{switch} independentemente do controlador e é baseado na configuração e no estado das entradas de fluxo. Neste trabalho, foi definido um intervalo de \textit{timeout} para cada fluxo para que não ocorra \textit{overflow} de regras nas tabelas de encaminhamento. Um fluxo só permanecerá na tabela por um pequeno intervalo após o recebimento de seu último pacote.
 
 Para alterar ou remover alguma entrada da tabela de fluxo, deve ser enviada uma mensagem do tipo OFPT\_FLOW\_MOD que é definida conforme ilustra a Figura \ref{fig:ofp-flow-mod}.
 
@@ -31,7 +31,7 @@ Alterando a regras de encaminhamento através destas mensagens, além de reagir 
 
 Algumas medidas de prevenção também foram preestabelecidas no controlador. Por padrão toda conexão não maliciosa, deve iniciar a comunicação com um pacote SYN. Sendo assim, ao receber um pacote com \textit{flag} diferente da SYN, o controlador imediatamente descarta o pacote, prevenindo assim o ataques do tipo ACK, exploração FIN e Xmas Tree.
 
-Os fluxos adicionados pelo controlador nas tabelas de encaminhamento possuem como regras as informações chave do cabeçalho mencionadas, desta forma, cada fluxo recebido irá possuir uma única entrada na tabela. Neste instante é também configurado um \textit{timeout} para este fluxo. Este \textit{timeout} foi estabelecido em quinze segundos, tempo permite que o fluxo não seja removido da tabela caso houver um pequeno atraso na transmissão dos pacotes além de possibilitar que coletas de estatísticas sejam realizadas, pois uma vez removido o fluxo, não é mais possível obter suas informações. O Quadro \ref{fll}, ilustra uma tabela de fluxo com as regras utilizadas pelo \textit{software} proposto, regras não utilizadas foram omitidas da tabela para melhor leitura.
+Os fluxos adicionados pelo controlador nas tabelas de encaminhamento possuem como regras as informações chave do cabeçalho mencionadas, desta forma, cada fluxo recebido irá possuir uma única entrada na tabela. Neste instante é também configurado um \textit{timeout} para este fluxo. Este \textit{timeout} foi estabelecido em quinze segundos, tempo permite que o fluxo não seja removido da tabela caso houver um pequeno atraso na transmissão dos pacotes além possibilitar que coletas de estatísticas sejam realizadas, pois uma vez removido o fluxo, não é mais possível obter suas informações. O Quadro \ref{fll}, ilustra uma tabela de fluxo com as regras utilizadas pelo \textit{software} proposto, regras não utilizadas foram omitidas da tabela para melhor leitura.
 
 \begin{table}[H]
 \centering
